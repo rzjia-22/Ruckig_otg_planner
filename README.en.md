@@ -17,7 +17,7 @@ It is no longer the original fixed A/B motion demo. The current project provides
 
 Architecture details:
 
-- see [ARCHITECTURE.md](./ARCHITECTURE.md) for the runtime graph, topic graph, state machine, and execution logic
+- see [ARCHITECTURE.en.md](./ARCHITECTURE.en.md) for the runtime graph, topic graph, state machine, and execution logic
 
 ## 1. Build
 
