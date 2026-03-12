@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+
+    <xacro:arg name="controllers_file" default=""/>
+    <xacro:arg name="gz_ros2_control_plugin" default="libgz_ros2_control-system.so"/>
+
+    <xacro:macro name="box_inertial" params="mass width depth height *origin">
+        <inertial>
+            <mass value="${mass}" />
+            <xacro:insert_block name="origin" />
+            <inertia ixx="${mass / 12 * (depth * depth + height * height)}" ixy="0.0" ixz="0.0"
+                     iyy="${mass / 12 * (width * width + height * height)}" iyz="0.0"
+                     izz="${mass / 12 * (width * width + depth * depth)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial" params="mass radius length *origin">
+        <inertial>
+            <mass value="${mass}" />
+            <xacro:insert_block name="origin" />
+            <inertia ixx="${mass / 12 * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+                     iyy="${mass / 12 * (3 * radius * radius + length * length)}" iyz="0.0"
+                     izz="${mass / 2 * radius * radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <link name="panda_link0">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link0.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link0.stl"/></geometry>
+      </collision>
+      <xacro:box_inertial mass="3.06" width="0.2" depth="0.2" height="0.2">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:box_inertial>
+    </link>
+
+    <link name="panda_link1">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link1.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link1.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="2.34" radius="0.06" length="0.3">
+        <origin xyz="0 0 -0.1" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link2">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link2.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link2.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="2.36" radius="0.06" length="0.3">
+        <origin xyz="0 -0.1 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link3">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link3.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link3.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="2.38" radius="0.06" length="0.2">
+        <origin xyz="0 0 -0.1" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link4">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link4.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link4.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="2.43" radius="0.06" length="0.2">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link5">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link5.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link5.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="3.5" radius="0.06" length="0.2">
+        <origin xyz="0 0 -0.1" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link6">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link6.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link6.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="1.47" radius="0.05" length="0.1">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link7">
+      <visual>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/visual/link7.dae"/></geometry>
+      </visual>
+      <collision>
+        <geometry><mesh filename="package://moveit_resources_panda_description/meshes/collision/link7.stl"/></geometry>
+      </collision>
+      <xacro:cylinder_inertial mass="0.45" radius="0.04" length="0.1">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:cylinder_inertial>
+    </link>
+
+    <link name="panda_link8">
+       <collision><geometry><box size="0.1 0.1 0.1"/></geometry></collision>
+       <xacro:box_inertial mass="0.0" width="0.0" depth="0.0" height="0.0">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+       </xacro:box_inertial>
+    </link>
+
+    <joint name="panda_joint1" type="revolute">
+      <parent link="panda_link0"/>
+      <child link="panda_link1"/>
+      <origin xyz="0 0 0.333" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.8973" upper="2.8973" effort="87" velocity="2.1750"/>
+      <dynamics damping="5.0" friction="0.5"/> 
+    </joint>
+
+    <joint name="panda_joint2" type="revolute">
+      <parent link="panda_link1"/>
+      <child link="panda_link2"/>
+      <origin xyz="0 0 0" rpy="-1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1.7628" upper="1.7628" effort="87" velocity="2.1750"/>
+      <dynamics damping="5.0" friction="0.5"/>
+    </joint>
+
+    <joint name="panda_joint3" type="revolute">
+      <parent link="panda_link2"/>
+      <child link="panda_link3"/>
+      <origin xyz="0 -0.316 0" rpy="1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.8973" upper="2.8973" effort="87" velocity="2.1750"/>
+      <dynamics damping="5.0" friction="0.5"/>
+    </joint>
+
+    <joint name="panda_joint4" type="revolute">
+      <parent link="panda_link3"/>
+      <child link="panda_link4"/>
+      <origin xyz="0.0825 0 0" rpy="1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-3.0718" upper="-0.0698" effort="87" velocity="2.1750"/>
+      <dynamics damping="1.0" friction="0.5"/>
+    </joint>
+
+    <joint name="panda_joint5" type="revolute">
+      <parent link="panda_link4"/>
+      <child link="panda_link5"/>
+      <origin xyz="-0.0825 0.384 0" rpy="-1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.8973" upper="2.8973" effort="12" velocity="2.6100"/>
+      <dynamics damping="2.0" friction="1.0"/>
+    </joint>
+
+    <joint name="panda_joint6" type="revolute">
+      <parent link="panda_link5"/>
+      <child link="panda_link6"/>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-0.0175" upper="3.7525" effort="12" velocity="2.6100"/>
+      <dynamics damping="1.0" friction="0.5"/>
+    </joint>
+
+    <joint name="panda_joint7" type="revolute">
+      <parent link="panda_link6"/>
+      <child link="panda_link7"/>
+      <origin xyz="0.088 0 0" rpy="1.57079632679 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.8973" upper="2.8973" effort="12" velocity="2.6100"/>
+      <dynamics damping="1.0" friction="0.5"/>
+    </joint>
+
+    <joint name="panda_joint8" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.107"/>
+        <parent link="panda_link7"/>
+        <child link="panda_link8"/>
+    </joint>
+
+    <link name="world"/>
+    <joint name="virtual_joint" type="fixed">
+        <parent link="world"/>
+        <child link="panda_link0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <ros2_control name="GazeboSimSystem" type="system">
+        <hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+        
+        <xacro:macro name="configure_joint" params="joint_name initial_pos">
+            <joint name="${joint_name}">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_pos}</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+        </xacro:macro>
+
+        <xacro:configure_joint joint_name="panda_joint1" initial_pos="0.0"/>
+        <xacro:configure_joint joint_name="panda_joint2" initial_pos="-0.785"/>
+        <xacro:configure_joint joint_name="panda_joint3" initial_pos="0.0"/>
+        <xacro:configure_joint joint_name="panda_joint4" initial_pos="-2.356"/>
+        <xacro:configure_joint joint_name="panda_joint5" initial_pos="0.0"/>
+        <xacro:configure_joint joint_name="panda_joint6" initial_pos="1.571"/>
+        <xacro:configure_joint joint_name="panda_joint7" initial_pos="0.785"/>
+    </ros2_control>
+
+    <gazebo>
+        <plugin filename="$(arg gz_ros2_control_plugin)" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(arg controllers_file)</parameters>
+            <controller_manager_name>controller_manager</controller_manager_name>
+            <robot_param>robot_description</robot_param>
+            <robot_param_node>robot_state_publisher</robot_param_node>
+            <!-- Raise low default position gain (0.1), otherwise joints move very sluggishly in sim. -->
+            <position_proportional_gain>5.0</position_proportional_gain>
+        </plugin>
+    </gazebo>
+
+</robot>

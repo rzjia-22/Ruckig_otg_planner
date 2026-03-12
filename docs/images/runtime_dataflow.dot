@@ -1,0 +1,39 @@
+digraph runtime_dataflow {
+  rankdir=LR;
+  graph [fontname="Helvetica", bgcolor="white", pad="0.2"];
+  node [shape=box, style="rounded,filled", fillcolor="#f8fafc", color="#334155", fontname="Helvetica", fontsize=11, margin="0.12,0.08"];
+  edge [color="#475569", arrowsize=0.8, penwidth=1.1, fontname="Helvetica", fontsize=10];
+
+  Goal [label="/otg/goal_trajectory\nJointTrajectory", fillcolor="#eff6ff"];
+  Cancel [label="/otg/cancel\nTrigger", fillcolor="#eff6ff"];
+  JS [label="/joint_states\nJointState", fillcolor="#ecfeff"];
+  Obst [label="/otg/obstacles\nMarkerArray", fillcolor="#fef3c7"];
+
+  Planner [label="/otg_planner_node", shape=box, style="rounded,filled,bold", fillcolor="#dbeafe", color="#1d4ed8"];
+
+  State [label="/otg/planner_state\nString", fillcolor="#f8fafc"];
+  Result [label="/otg/goal_result\nString", fillcolor="#f8fafc"];
+  Clearance [label="/otg/min_clearance\nFloat32", fillcolor="#f8fafc"];
+  Preview [label="/otg/planned_trajectory\nJointTrajectory", fillcolor="#f8fafc"];
+  GoalJoint [label="/otg/goal_joint\nJointState", fillcolor="#f8fafc"];
+  Cmd [label="/joint_trajectory\nJointTrajectory", fillcolor="#d1fae5", color="#047857"];
+
+  Ctrl [label="/panda_arm_controller\nJointTrajectoryController", fillcolor="#dcfce7", color="#15803d"];
+  Panda [label="Panda in Gazebo", fillcolor="#fef2f2", color="#b91c1c"];
+
+  Goal -> Planner;
+  Cancel -> Planner;
+  JS -> Planner;
+  Obst -> Planner;
+
+  Planner -> State;
+  Planner -> Result;
+  Planner -> Clearance;
+  Planner -> Preview;
+  Planner -> GoalJoint;
+  Planner -> Cmd;
+
+  Cmd -> Ctrl;
+  Ctrl -> Panda;
+  Panda -> JS;
+}

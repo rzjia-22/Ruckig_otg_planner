@@ -1,0 +1,16 @@
+flowchart LR
+    Goal["/otg/goal_trajectory\nJointTrajectory"] --> Planner["/otg_planner_node"]
+    Cancel["/otg/cancel\nTrigger"] --> Planner
+    JS["/joint_states\nJointState"] --> Planner
+    Obst["/otg/obstacles\nMarkerArray"] --> Planner
+
+    Planner --> State["/otg/planner_state\nString"]
+    Planner --> Result["/otg/goal_result\nString"]
+    Planner --> Clearance["/otg/min_clearance\nFloat32"]
+    Planner --> Preview["/otg/planned_trajectory\nJointTrajectory"]
+    Planner --> GoalJoint["/otg/goal_joint\nJointState"]
+    Planner --> Cmd["/joint_trajectory\nJointTrajectory"]
+
+    Cmd --> Ctrl["/panda_arm_controller\nJointTrajectoryController"]
+    Ctrl --> Panda["Panda in Gazebo"]
+    Panda --> JS

@@ -1,0 +1,44 @@
+digraph planner_state_machine {
+  rankdir=LR;
+  graph [fontname="Helvetica", bgcolor="white", pad="0.25", nodesep="0.45", ranksep="0.7"];
+  node [shape=ellipse, style="filled", fillcolor="#f8fafc", color="#334155", fontname="Helvetica", fontsize=11];
+  edge [color="#475569", arrowsize=0.8, penwidth=1.1, fontname="Helvetica", fontsize=10];
+
+  start [shape=point, width=0.18, color="#0f172a", fillcolor="#0f172a", label=""];
+
+  IDLE [fillcolor="#e0f2fe", color="#0284c7"];
+  PLANNING [fillcolor="#dbeafe", color="#2563eb"];
+  EXECUTING [fillcolor="#dcfce7", color="#16a34a"];
+  WAITING_CLEARANCE [label="WAITING_CLEARANCE", fillcolor="#fef3c7", color="#d97706"];
+  REPLANNING [fillcolor="#fde68a", color="#ca8a04"];
+  SUCCEEDED [fillcolor="#bbf7d0", color="#15803d"];
+  PREEMPTED [fillcolor="#ede9fe", color="#7c3aed"];
+  CANCELED [fillcolor="#e5e7eb", color="#6b7280"];
+  ABORTED [fillcolor="#fecaca", color="#dc2626"];
+
+  start -> IDLE;
+
+  IDLE -> PLANNING [label="goal received"];
+
+  PLANNING -> EXECUTING [label="path found"];
+  PLANNING -> ABORTED [label="planning failed"];
+  PLANNING -> PREEMPTED [label="newer goal"];
+  PLANNING -> CANCELED [label="cancel request"];
+
+  EXECUTING -> SUCCEEDED [label="goal tolerance reached"];
+  EXECUTING -> REPLANNING [label="path entered replan margin"];
+  EXECUTING -> WAITING_CLEARANCE [label="current state clearance violated"];
+  EXECUTING -> PREEMPTED [label="newer goal"];
+  EXECUTING -> CANCELED [label="cancel request"];
+  EXECUTING -> ABORTED [label="timeout or unrecoverable failure"];
+
+  WAITING_CLEARANCE -> REPLANNING [label="recoverable window found"];
+  WAITING_CLEARANCE -> ABORTED [label="recovery timeout or no valid path"];
+  WAITING_CLEARANCE -> PREEMPTED [label="newer goal"];
+  WAITING_CLEARANCE -> CANCELED [label="cancel request"];
+
+  REPLANNING -> EXECUTING [label="new path published"];
+  REPLANNING -> ABORTED [label="replanning failed"];
+  REPLANNING -> PREEMPTED [label="newer goal"];
+  REPLANNING -> CANCELED [label="cancel request"];
+}

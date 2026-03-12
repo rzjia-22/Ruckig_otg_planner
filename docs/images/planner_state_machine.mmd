@@ -1,0 +1,25 @@
+stateDiagram-v2
+    [*] --> IDLE
+
+    IDLE --> PLANNING: goal received
+    PLANNING --> EXECUTING: path found
+    PLANNING --> ABORTED: planning failed
+    PLANNING --> PREEMPTED: newer goal
+    PLANNING --> CANCELED: cancel request
+
+    EXECUTING --> SUCCEEDED: goal tolerance reached
+    EXECUTING --> REPLANNING: path entered replan margin
+    EXECUTING --> WAITING_CLEARANCE: current state clearance violated
+    EXECUTING --> PREEMPTED: newer goal
+    EXECUTING --> CANCELED: cancel request
+    EXECUTING --> ABORTED: timeout or unrecoverable failure
+
+    WAITING_CLEARANCE --> REPLANNING: recoverable window found
+    WAITING_CLEARANCE --> ABORTED: recovery timeout or no valid path
+    WAITING_CLEARANCE --> PREEMPTED: newer goal
+    WAITING_CLEARANCE --> CANCELED: cancel request
+
+    REPLANNING --> EXECUTING: new path published
+    REPLANNING --> ABORTED: replanning failed
+    REPLANNING --> PREEMPTED: newer goal
+    REPLANNING --> CANCELED: cancel request
